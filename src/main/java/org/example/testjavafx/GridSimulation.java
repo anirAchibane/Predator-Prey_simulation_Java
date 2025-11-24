@@ -14,24 +14,27 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 public class GridSimulation extends Application {
+
     Random random = new Random();
 
-    private static final int TILE_SIZE = 20;
-    private static final int WIDTH = 30;    // number of tiles in width.
-    private static final int HEIGHT = 20;   // number of tiles in height.
+    private static final int TILE_SIZE = 10;
+    private static final int WIDTH = 150;    // number of tiles in width.
+    private static final int HEIGHT = 100;   // number of tiles in height.
 
     private ArrayList<Agent> activeAgents; // active agents in current iteration
     private Agent[][] grid;                // placement of agents in grid
 
+    // This part below is a controller - it should be removed from this View type class
     // adds new agent to grid
     private void addAgent(Agent agent){
         activeAgents.add(agent);
         grid[agent.position_y][agent.position_x] = agent;
     }
 
-    // spawns initial agents into the grid
+    // Initially populate grid with agents
     private void spawnInitialAgents(int num_of_predators,int num_of_preys){
         boolean predator_created;
         while(num_of_predators > 0){
@@ -60,12 +63,17 @@ public class GridSimulation extends Application {
             num_of_preys--;
         }
     }
+    // The part above is a controller - it should be removed from this View type class
+
 
     @Override
     public void start(Stage stage) throws IOException {
         activeAgents = new ArrayList<Agent>();
         grid = new Agent[HEIGHT][WIDTH];
 
+        // spawn initial agents:
+
+        spawnInitialAgents(3,3);
         // Create group as root:
         Group root = new Group();
 
@@ -81,13 +89,17 @@ public class GridSimulation extends Application {
         // Set scene and show:
         stage.setScene(new Scene(root));
         stage.show();
-
     }
 
     private void drawGrid(GraphicsContext gc){
         // Filling the screen in black (no agents in the scene)
         gc.setFill(Color.BLACK);
         gc.fillRect(0,0,WIDTH*TILE_SIZE,HEIGHT*TILE_SIZE);
+
+        for(Agent agent: activeAgents){
+            gc.setFill(agent.getColor());
+            gc.fillRect(agent.getPosition_x()*TILE_SIZE, agent.getPosition_y()*TILE_SIZE,TILE_SIZE,TILE_SIZE);
+        }
 
     }
 }
