@@ -9,7 +9,5 @@ public class Prey extends Agent{
         this.color = Color.BLUE;
     }
 
-    public void move(){
-        // depends on chosen logic;
-    };
+
 }

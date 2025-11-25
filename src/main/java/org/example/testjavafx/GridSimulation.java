@@ -1,5 +1,6 @@
 package org.example.testjavafx;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Camera;
 import javafx.scene.Group;
@@ -20,12 +21,15 @@ public class GridSimulation extends Application {
 
     Random random = new Random();
 
-    private static final int TILE_SIZE = 10;
-    private static final int WIDTH = 150;    // number of tiles in width.
-    private static final int HEIGHT = 100;   // number of tiles in height.
+    private static final int TILE_SIZE = 5;
+    private static final int WIDTH = 300;    // number of tiles in width.
+    private static final int HEIGHT = 200;   // number of tiles in height.
 
     private ArrayList<Agent> activeAgents; // active agents in current iteration
     private Agent[][] grid;                // placement of agents in grid
+
+    MovementStrategy movementStrategy = new NaiveRandomStrategy(); // naive movement strategy controller to test
+
 
     // This part below is a controller - it should be removed from this View type class
     // adds new agent to grid
@@ -72,8 +76,7 @@ public class GridSimulation extends Application {
         grid = new Agent[HEIGHT][WIDTH];
 
         // spawn initial agents:
-
-        spawnInitialAgents(3,3);
+        spawnInitialAgents(20,50);
         // Create group as root:
         Group root = new Group();
 
@@ -89,6 +92,31 @@ public class GridSimulation extends Application {
         // Set scene and show:
         stage.setScene(new Scene(root));
         stage.show();
+
+        // AnimationTimer class for the simulation loop.
+        AnimationTimer loop = new AnimationTimer() {
+            /*
+            * Setting lastUpdate and interval to keep
+            * the animation at around 24fps
+            * */
+            private long lastUpdate = 0;
+            private long interval = 40_000_000;
+            @Override
+            public void handle(long now) {
+                if (now - lastUpdate >= interval ) {
+                    for(Agent agent: activeAgents){
+                        movementStrategy.move(agent,grid,activeAgents);
+                    }
+                    activeAgents.removeIf(agent -> !agent.isAlive());
+
+                    drawGrid(gc);
+                    lastUpdate = now;
+                }
+
+            }
+        };
+
+        loop.start();
     }
 
     private void drawGrid(GraphicsContext gc){

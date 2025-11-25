@@ -7,13 +7,13 @@ public abstract class Agent {
     int position_y;
     Color color;
     int energy_level;
-
-    public abstract void move();
+    boolean isAlive;
 
     public Agent(int position_x, int position_y) {
         this.position_x = position_x;
         this.position_y = position_y;
         this.energy_level = 10;
+        this.isAlive = true;
     }
 
     public int getPosition_x() {
@@ -46,5 +46,13 @@ public abstract class Agent {
 
     public void setEnergy_level(int energy_level) {
         this.energy_level = energy_level;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }
