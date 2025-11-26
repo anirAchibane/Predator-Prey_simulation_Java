@@ -5,16 +5,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class NaiveRandomStrategy implements MovementStrategy{
-    private void updateAgentPosition(Agent agent, int newX, int newY, Agent[][] grid){
-        // remove prey from initial position
-        grid[agent.getPosition_y()][agent.getPosition_x()] = null;
-        // update prey's coordinate attributes
-        agent.setPosition_x(newX);
-        agent.setPosition_y(newY);
-        // put agent in new grid;
-        grid[agent.getPosition_y()][agent.getPosition_x()] = agent;
-        return;
-    }
+
     public void move(Agent agent, Agent[][] grid, ArrayList<Agent> activeAgents){
         if (!agent.isAlive()){
             return;
@@ -36,7 +27,7 @@ public class NaiveRandomStrategy implements MovementStrategy{
 
         // moving based on agent's type
         if (agent instanceof Predator){
-            // looking for nearby predator
+            // looking for nearby prey
             for(Pair<Integer,Integer> coords: surroundings){
                 if(grid[coords.getValue()][coords.getKey()] instanceof Prey){ // eating a prey
                     // removing prey from active agents array
@@ -47,7 +38,7 @@ public class NaiveRandomStrategy implements MovementStrategy{
                         }
                     }
 
-                    updateAgentPosition(agent,coords.getKey(), coords.getValue(), grid);
+                    MovementStrategy.updateAgentPosition(agent,coords.getKey(), coords.getValue(), grid);
                     return;
                 }
             }
@@ -67,7 +58,7 @@ public class NaiveRandomStrategy implements MovementStrategy{
                     int moveIndex = randomizer.nextInt(surroundings.size());
                     Pair<Integer, Integer> newCoordinates = surroundings.get(moveIndex);
 
-                    updateAgentPosition(agent,newCoordinates.getKey(), newCoordinates.getValue(), grid);
+                    MovementStrategy.updateAgentPosition(agent,newCoordinates.getKey(), newCoordinates.getValue(), grid);
                 }
         }
         else{ // if agent is prey, move randomly
@@ -87,7 +78,7 @@ public class NaiveRandomStrategy implements MovementStrategy{
                     int moveIndex = randomizer.nextInt(surroundings.size());
                     Pair<Integer,Integer> newCoordinates = surroundings.get(moveIndex);
 
-                    updateAgentPosition(agent,newCoordinates.getKey(), newCoordinates.getValue(), grid);
+                    MovementStrategy.updateAgentPosition(agent,newCoordinates.getKey(), newCoordinates.getValue(), grid);
                 }
             }
         }

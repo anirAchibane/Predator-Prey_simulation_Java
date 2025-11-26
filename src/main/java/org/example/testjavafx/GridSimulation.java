@@ -76,7 +76,7 @@ public class GridSimulation extends Application {
         grid = new Agent[HEIGHT][WIDTH];
 
         // spawn initial agents:
-        spawnInitialAgents(20,50);
+        spawnInitialAgents(1,400);
         // Create group as root:
         Group root = new Group();
 
@@ -100,10 +100,10 @@ public class GridSimulation extends Application {
             * the animation at around 24fps
             * */
             private long lastUpdate = 0;
-            private long interval = 40_000_000;
+            private long interval = 68_000_000;
             @Override
             public void handle(long now) {
-                if (now - lastUpdate >= interval ) {
+                if (now - lastUpdate >= interval) {
                     for(Agent agent: activeAgents){
                         movementStrategy.move(agent,grid,activeAgents);
                     }
