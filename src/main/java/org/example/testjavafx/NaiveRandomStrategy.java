@@ -15,11 +15,10 @@ public class NaiveRandomStrategy implements MovementStrategy{
         int y = agent.getPosition_y();
 
         // finding agent's surroundings:
-        ArrayList<Pair<Integer,Integer>> surroundings = new ArrayList<>();
+        ArrayList<Pair<Integer,Integer>> surroundings = new ArrayList<>(); // soufiane : why the choice of using arrayList<> instead of just simple 2d array?
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
-                if((x+i<= grid[0].length -1 && x+i >= 0)
-                        && (y+j <= grid.length -1 && y+j >= 0)){
+                if(( grid[0].length-1 >= x+i  && x+i >= 0) && (grid.length -1 >= y+j && y+j >= 0)){
                     surroundings.add(new Pair<>(x+i,y+j));
                 }
             }

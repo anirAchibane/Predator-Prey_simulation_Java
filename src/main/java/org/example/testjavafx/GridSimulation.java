@@ -20,10 +20,10 @@ import java.util.Timer;
 public class GridSimulation extends Application {
 
     Random random = new Random();
-
-    private static final int TILE_SIZE = 5;
-    private static final int WIDTH = 300;    // number of tiles in width.
-    private static final int HEIGHT = 200;   // number of tiles in height.
+    // soufiane comment:  i made tile size, width and height public, because i may use them in another place.
+    public static final int TILE_SIZE = 5;
+    public static final int WIDTH = 100;    // number of tiles in width.
+    public static final int HEIGHT = 100;   // number of tiles in height.
 
     private ArrayList<Agent> activeAgents; // active agents in current iteration
     private Agent[][] grid;                // placement of agents in grid
@@ -71,12 +71,12 @@ public class GridSimulation extends Application {
 
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException { // Soufiane comment : why you use throws IOException
         activeAgents = new ArrayList<Agent>();
         grid = new Agent[HEIGHT][WIDTH];
 
         // spawn initial agents:
-        spawnInitialAgents(1,400);
+        spawnInitialAgents(100,100);
         // Create group as root:
         Group root = new Group();
 
